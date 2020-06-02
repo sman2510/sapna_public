@@ -1,0 +1,28 @@
+<div class="container">
+	<table datatable [dtOptions]="dtOptions" class="row-border hover">
+		<thead>
+			<tr>
+				<th>S. No.</th>
+				<th>Student Name</th>
+				<th>Email</th>
+				<th>Mobile</th>
+				<th>Payment Mode</th>
+				<th>Paid Amount</th>
+				<th>Commission %</th>
+				<th>Commission Amount</th>
+			</tr>
+		</thead>
+		<tbody *ngIf="data?.length != 0">
+			<tr *ngFor="let d of data; index as i">
+				<td>{{i+1}}</td>
+				<td>{{ d.order.user.name }}</td>
+				<td>{{ d.order.user.email }}</td>
+				<td>{{ d.order.user.mobile_no }}</td>
+				<td>{{ d.order.payment_mode }}</td>
+				<td>{{ d.order.amount }}</td>
+				<td>{{ d.amount }}</td>
+				<td>{{ (d.order.amount * d.amount)/100 }}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

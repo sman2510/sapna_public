@@ -1,0 +1,25 @@
+<div [@routerTransition]>
+
+    <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise">  
+        <p style="color: white">Please Wait... </p>  
+    </ngx-spinner> 
+
+    <h2>Dashboard</h2>
+    <div class="row">
+        <div class="col-xl-3 col-lg-6 marBt_1Per" *ngFor="let item of listData">
+            <div class="card text-white" [ngClass]='item.style'>
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col col-xs-3">
+                            <i class="fa-2x" [ngClass]='item.icon'></i>
+                        </div>
+                        <div class="col col-xs-9 text-right">
+                            <div class="d-block">{{item.value}}</div>
+                            <div class="d-block huge">{{item.key}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

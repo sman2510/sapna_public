@@ -1,0 +1,179 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Student Detail'"></app-page-header>
+
+    <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise">  
+        <p style="color: white">Please Wait... </p>  
+    </ngx-spinner> 
+
+
+
+    <br>
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <span>Student Personal Information</span>
+                    <button (click)="backUrl()" class="btn btn-sm btn-primary pull-right">Back</button>
+                </div>
+                <div class="card-body table-responsive">
+                    <div class="formbox" *ngIf="studentData?.length != 0">
+                        <div class="row" *ngFor="let data of studentData;">
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>Name : </b>{{data.name}}</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>Email Id : </b>{{data.email}}</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>Mobile : </b>{{data.mobile_no}}</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>Gender : </b>{{data.student_details.gender}}</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>Date of Birth : </b>{{data.student_details.dob}}</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>Class : </b>{{data.student_details.class}}</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>City : </b>{{data.student_details.city}}</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>Sate : </b>{{data.student_details.state}}</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4" *ngIf="data.user_subscription">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>Plan Expiry Date : </b>{{data.user_subscription.expire_date}}</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>Wallet Balance : </b>{{data.student_details.wallet_balance}}</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>Referral Code : </b>{{data.student_details.referral_code}}</p>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <span>Student Plan Details - Order History</span>
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table table-striped table-bordered table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+                        <thead>
+                            <tr>
+                                <th>S. No.</th>
+                                <th>Payment Mode</th>
+                                <th>Subscription Type</th>
+                                <th>Plan Day</th>
+                                <th>Amount</th>
+                                <th>Order Id</th>
+                                <th>Transaction Id</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="listData?.length != 0">
+                            <tr *ngFor="let data of listData; index as i">
+                                <td>{{i+1}}</td>
+                                <td>{{data.payment_mode}}</td>
+                                <td>{{data.subscription.title}}</td>
+                                <td>{{data.subscription.days}}</td>
+                                <td>{{data.amount}}</td>
+                                <td>{{data.order_id}}</td>
+                                <td>{{data.transaction_id}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <span>Student Redeem Amount Details</span>
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table table-striped table-bordered table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+                        <thead>
+                            <tr>
+                                <th>S. No.</th>
+                                <th>Holder Name</th>
+                                <th>Account</th>
+                                <th>Amount</th>
+                                <th>IFSC</th>
+                                <th>Transaction Id</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="redeemData?.length != 0">
+                            <tr *ngFor="let data of redeemData; index as i">
+                                <td>{{i+1}}</td>
+                                <td>{{data.holder_name}}</td>
+                                <td>{{data.account_no}}</td>
+                                <td>{{data.amount}}</td>
+                                <td>{{data.ifsc}}</td>
+                                <td>{{data.transaction_id}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

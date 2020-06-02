@@ -1,0 +1,104 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Students'"></app-page-header>
+
+    <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise">  
+        <p style="color: white">Please Wait... </p>  
+    </ngx-spinner> 
+
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <span>Student Details</span>
+                    <button class="btn btn-sm btn-success pull-right marLt_1Per" (click)="getExcel()">Export To Excel</button>
+                    <button class="btn btn-sm btn-primary pull-right" (click)="addStudent()">Add</button>
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table table-striped table-bordered table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+                        <thead>
+                            <tr>
+                                <th>S. No.</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Gender</th>
+                                <th>DOB</th>
+                                <th>State</th>
+                                <th>City</th>
+                                <th>Class</th>
+                                <th>Wallet Balance</th>
+                                <th>Status</th>
+                                <th class="text-center">Change Status</th>
+                                <th class="text-center actionHeader">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="listData?.length != 0">
+                            <tr *ngFor="let data of listData; index as i">
+                                <td>{{i+1}}</td>
+                                <td>{{data.name}}</td>
+                                <td>{{data.email}}</td>
+                                <td>{{data.mobile_no}}</td>
+                                <td>{{data.gender | titlecase}}</td>
+                                <td>{{data.dob}}</td>
+                                <td>{{data.state}}</td>
+                                <td>{{data.city}}</td>
+                                <td>{{data.class}}</td>
+                                <td>{{data.wallet_balance}}</td>
+                                <td>
+                                    <span *ngIf="data.status == '1'">Active</span>
+                                    <span *ngIf="data.status == '0'">In-Active</span>
+                                </td>
+                                <td class="text-center">
+                                    <button (click)="open(content,'edit', data.user_id)" class="btn btn-sm btn-info fa fa-flag"></button>
+                                </td>
+                                <td class="text-center actionHeader">
+                                    <button (click)="editStudent(data.user_id)" class="btn btn-sm btn-primary fa fa-pencil"></button>
+                                    <button (click)="deleteData(data.user_id)" class="btn btn-sm btn-danger fa fa-trash"></button>
+                                    &nbsp;
+                                    <button (click)="viewStudent(data.user_id)" class="btn btn-sm btn-success fa fa-eye"></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Add/Edit Modal Start -->
+    <ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title">Student Status Detail</h4>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="detailForm" (ngSubmit)="saveDetail()" >
+                <div class="formbox">
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-6 col-xl-6 col-md-6">
+                            <div class="form-group">
+                                <label>Status *</label>
+                                <select class="form-control" formControlName="status" class="form-control" [ngClass]="{ 'is-invalid': submitted && fval.status.errors }">
+                                    <option value="1">Active</option>
+                                    <option value="0">In-Active</option>
+                                </select>
+                                <div *ngIf="submitted && fval.status.errors" class="invalid-feedback">
+                                    <div *ngIf="fval.status.errors.required">
+                                        Status is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-danger pull-right marLt_2Per" (click)="c('Close click')">Close</button>
+                        <button type="submit" class="btn btn-primary pull-right">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+    <!-- Add/Edit Modal End -->
+
+</div>
+

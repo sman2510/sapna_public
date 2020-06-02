@@ -1,0 +1,118 @@
+<div [@routerTransition] class="vendorDash">
+
+    <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise">  
+        <p style="color: white">Please Wait... </p>  
+    </ngx-spinner> 
+
+
+    <br>
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <span> Personal Information</span>
+                </div>
+                <div class="card-body table-responsive">
+                    <div class="formbox" *ngIf="vendorData?.length != 0">
+                        <div class="row" *ngFor="let data of vendorData;">
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>Name : </b>{{data.name}}</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>Email Id : </b>{{data.email}}</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>Mobile : </b>{{data.mobile_no}}</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>Type : </b>{{data.vendor_details.type}}</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>Referral Code : </b>{{data.vendor_details.referral_code}}</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4"></div>
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>Address : </b>{{data.vendor_details.address}}</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>City : </b>{{data.vendor_details.city}}</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-xl-4 col-md-4">
+                                <div class="form-group">
+                                    <span>
+                                        <p><b>State : </b>{{data.vendor_details.state}}</p>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <span>Commission Details</span>
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table table-striped table-bordered table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+                        <thead>
+                            <tr>
+                                <th>S. No.</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Amount</th>
+                                <th>Commission</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="listData?.length != 0">
+                            <tr *ngFor="let data of listData; index as i">
+                                <td>{{i+1}}</td>
+                                <td>{{data.name}}</td>
+                                <td>{{data.email}}</td>
+                                <td>{{data.mobile_no}}</td>
+                                <td>{{data.amount}}</td>
+                                <td>{{data.commision}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

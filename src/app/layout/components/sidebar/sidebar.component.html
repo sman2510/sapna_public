@@ -1,0 +1,104 @@
+<nav *ngIf="displayAdmin" class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
+
+    <div class="list-group">
+
+        <a *ngIf="displayAdmin" routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-home"></i>&nbsp;
+            <span>Dashboard</span>
+        </a>
+        <a *ngIf="displayAdmin" [routerLink]="['/subscriptionList']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-money"></i>&nbsp;
+            <span>Subscription</span>
+        </a>
+        <a *ngIf="displaySuperAdmin" [routerLink]="['/studentList']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-user-circle"></i>&nbsp;
+            <span>Student</span>
+        </a>
+        <a *ngIf="displayAdmin" [routerLink]="['/teacherList']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-user"></i>&nbsp;
+            <span>Teacher</span>
+        </a>
+        <a *ngIf="displayAdmin" [routerLink]="['/classList']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-graduation-cap"></i>&nbsp;
+            <span>Class</span>
+        </a>
+        <a *ngIf="displayAdmin" [routerLink]="['/subjectList']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-book"></i>&nbsp;
+            <span>Subject</span>
+        </a>
+        <a *ngIf="displayAdmin" [routerLink]="['/chapterList']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-file"></i>&nbsp;
+            <span>Chapter</span>
+        </a>
+        <a *ngIf="displayAdmin" [routerLink]="['/topicList']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-pencil-square"></i>&nbsp;
+            <span>Topic</span>
+        </a>
+        <a *ngIf="displayAdmin" [routerLink]="['/videoList']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-video-camera"></i>&nbsp;
+            <span>Video</span>
+        </a>
+        <a *ngIf="displaySuperAdmin" [routerLink]="['/aboutus']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-address-card"></i>&nbsp;
+            <span>Comapny Information</span>
+        </a>
+        <a *ngIf="displayAdmin" [routerLink]="['/notificationList']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-bell"></i>&nbsp;
+            <span>Notification</span>
+        </a>
+        <a *ngIf="displaySuperAdmin" [routerLink]="['/redeemAmountList']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-money"></i>&nbsp;
+            <span>Redeem Amount</span>
+        </a>
+        <a *ngIf="displaySuperAdmin" [routerLink]="['/vendorList']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-user-plus"></i>&nbsp;
+            <span>Vendor</span>
+        </a>
+        <a *ngIf="displaySuperAdmin" [routerLink]="['/reportList']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-file-text"></i>&nbsp;
+            <span>Vendor Report</span>
+        </a>
+        
+
+
+
+
+
+        <div class="header-fields">
+            <div class="nested-menu">
+                <a class="list-group-item" (click)="addExpandClass('profile')">
+                    <span><i class="fa fa-user"></i>&nbsp; {{displayName}}</span>
+                </a>
+                <li class="nested" [class.expand]="showMenu === 'profile'">
+                    <ul class="submenu">
+                        <li>
+                            <a [routerLink]="['/changePassword']">
+                                <span><i class="fa fa-fw fa-cog"></i>Change Password</span>
+                            </a>
+                        </li>
+                        <li *ngIf="displaySuperAdmin">
+                            <a [routerLink]="['/adminList']">
+                                <span><i class="fa fa-fw fa-user"></i>Create Admin</span>
+                            </a>
+                        </li>
+                        <li *ngIf="displaySuperAdmin">
+                            <a [routerLink]="['/setting']">
+                                <span><i class="fa fa-fw fa-cog"></i>Setting</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/login']" (click)="onLoggedout()">
+                                <span><i class="fa fa-fw fa-power-off"></i>Log Out</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </div>
+        </div>
+
+        
+    </div>
+    <div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
+        <i class="fa fa-fw fa-angle-double-{{collapsed?'right':'left'}}"></i>&nbsp;        
+    </div>
+</nav>

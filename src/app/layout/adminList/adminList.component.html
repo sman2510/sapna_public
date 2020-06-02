@@ -1,0 +1,104 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Admins'"></app-page-header>
+
+    <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise">  
+        <p style="color: white">Please Wait... </p>  
+    </ngx-spinner> 
+
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <span>Admin Details</span>
+                    <button class="btn btn-sm btn-primary pull-right" (click)="open(content,'add','')">Add</button>
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table table-striped table-bordered table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+                        <thead>
+                            <tr>
+                                <th>S. No.</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th class="text-center actionHeader">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="listData?.length != 0">
+                            <tr *ngFor="let data of listData; index as i">
+                                <td>{{i+1}}</td>
+                                <td>{{data.name}}</td>
+                                <td>{{data.email}}</td>
+                                <td class="text-center actionHeader">
+                                    <button (click)="open(content, 'edit', data.id)" class="btn btn-sm btn-primary fa fa-pencil"></button>
+                                    &nbsp;
+                                    <button (click)="deleteData(data.id)" class="btn btn-sm btn-danger fa fa-trash"></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal Start -->
+    <ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title">Admin Detail</h4>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="detailForm" (ngSubmit)="saveDetail()" >
+                <div class="formbox">
+                    <div class="row">
+                        <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
+                            <div class="form-group">
+                                <label>Name *</label>
+                                <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && fval.name.errors }"/>
+                                <div *ngIf="submitted && fval.name.errors" class="invalid-feedback">
+                                    <div *ngIf="fval.name.errors.required">
+                                        Name is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
+                            <div class="form-group">
+                                <label>Email ID *</label>
+                                <input type="email" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && fval.email.errors }"/>
+                                <div *ngIf="submitted && fval.email.errors" class="invalid-feedback">
+                                    <div *ngIf="fval.email.errors.required">
+                                        Email ID is required
+                                    </div>
+                                    <div *ngIf="fval.email.errors.email">
+                                        Enter valid Email Id
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
+                            <div class="form-group">
+                                <label>Password *</label>
+                                <input type="password" formControlName="password" minlength="6" class="form-control" [ngClass]="{ 'is-invalid': submitted && fval.password.errors }"/>
+                                <div *ngIf="submitted && fval.password.errors" class="invalid-feedback">
+                                    <div *ngIf="fval.password.errors.required">
+                                        Password is required
+                                    </div>
+                                    <div *ngIf="fval.password.errors.minlength">
+                                        Password must be at least 6 characters
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-danger pull-right marLt_2Per" (click)="c('Close click')">Close</button>
+                        <button type="submit" class="btn btn-primary pull-right">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+    <!-- Add/Edit Modal End -->
+
+
+</div>
+

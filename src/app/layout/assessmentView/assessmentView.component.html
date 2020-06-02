@@ -1,0 +1,51 @@
+<div [@routerTransition]>
+
+    <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise">  
+        <p style="color: white">Please Wait... </p>  
+    </ngx-spinner> 
+
+    <div class="row">
+        <div class="col-sm-11 col-xl-11 col-lg-11 col-md-11">
+            <h2>Assessment</h2>
+        </div>
+        <div class="col-sm-1 col-xl-1 col-lg-1 col-md-1">
+            <button (click)="backUrl()" class="btn btn-sm btn-primary">Back</button>
+        </div>
+    </div>
+
+    <br>
+    <div class="row" *ngIf="videoId">
+        <div class="col-sm-12 col-xl-12 col-lg-12 col-md-12">
+            <div *ngIf="listData?.length != 0">
+                <div *ngFor="let data of listData">
+                    <h2>{{data.title}}</h2>
+                    <div class="col-sm-12 col-xl-12 col-lg-12 col-md-12" *ngFor="let data of data.quiz_question; index as i">
+                        <div class="col-sm-12 col-xl-12 col-lg-12 col-md-12">
+                            <b>Ques {{i+1}} - </b> {{data.question}}
+                        </div>
+                        <div class="col-sm-6 col-xl-6 col-lg-6 col-md-6">
+                            <b>Option 1 - </b> {{data.a}}
+                        </div>
+                        <div class="col-sm-6 col-xl-6 col-lg-6 col-md-6">
+                            <b>Option 2 - </b> {{data.b}}
+                        </div>
+                        <div class="col-sm-12 col-xl-12 col-lg-12 col-md-12">
+                            <b>Option 3 - </b> {{data.c}}
+                        </div>
+                        <div class="col-sm-12 col-xl-12 col-lg-12 col-md-12">
+                            <b>Option 4 - </b> {{data.d}}
+                        </div>
+                        <div class="col-sm-12 col-xl-12 col-lg-12 col-md-12">
+                            <b>Answer - </b> Option {{data.ans}}
+                        </div>
+                        <div class="col-sm-12 col-xl-12 col-lg-12 col-md-12">
+                            <b>Desc - </b> {{data.description}}
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

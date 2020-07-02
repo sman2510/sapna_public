@@ -1,39 +1,45 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { routerTransition } from '../../router.animations';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { Subject } from 'rxjs';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { routerTransition } from "../../router.animations";
+import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
+import {
+    FormBuilder,
+    FormGroup,
+    FormControl,
+    Validators,
+} from "@angular/forms";
+import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+import { Subject } from "rxjs";
 import { ApiService } from "../service/api.service";
 import { NgxSpinnerService } from "ngx-spinner";
-import { DataTableDirective } from 'angular-datatables';
-import Swal from 'sweetalert2';
+import { DataTableDirective } from "angular-datatables";
+import Swal from "sweetalert2";
 
 @Component({
-    selector: 'app-tables',
-    templateUrl: './teacherList.component.html',
-    styleUrls: ['./teacherList.component.scss'],
+    selector: "app-tables",
+    templateUrl: "./teacherList.component.html",
+    styleUrls: ["./teacherList.component.scss"],
     animations: [routerTransition()],
     providers: [ApiService],
 })
-
 export class TeacherListComponent implements OnInit {
-    @ViewChild(DataTableDirective, {static: false})
+    @ViewChild(DataTableDirective, { static: false })
     dtElement: DataTableDirective;
-    isDtInitialized:boolean = false;
-    title = 'angulardatatables';
+    isDtInitialized: boolean = false;
+    title = "angulardatatables";
     dtOptions: DataTables.Settings = {};
     dtTrigger: Subject<any> = new Subject();
 
-    public apiUrl : any;
-    public listData : any;
-    public editID : any;
-    public modalReference : any;
-    public formType : string;
-    public tempFileData : any;
-    closeResult : string;    
-    detailForm : FormGroup;
+    public apiUrl: any;
+    public listData: any;
+    public editID: any;
+    public modalReference: any;
+    public formType: string;
+    public tempFileData: any;
+    public classData: any;
+    public checkedList: any;
+    closeResult: string;
+    detailForm: FormGroup;
     submitted = false;
 
     constructor(
@@ -43,102 +49,144 @@ export class TeacherListComponent implements OnInit {
         private formBuilder: FormBuilder,
         private toastr: ToastrService,
         private SpinnerService: NgxSpinnerService
-    ) { }
+    ) {}
 
     ngOnInit() {
         this.dtOptions = {
-            pagingType: 'full_numbers',
+            pagingType: "full_numbers",
             pageLength: 5,
-            processing: true
+            processing: true,
         };
         this.detailForm = this.formBuilder.group({
             teacher_name: ["", Validators.required],
             education: ["", Validators.required],
             image: ["", Validators.required],
             display: [""],
+            class: [""],
         });
+        this.checkedList = [];
         this.listGetData();
+        this.getClassData();
+    }
+    getClassData() {
+        this.apiService
+            .getData("class/list?pageName=student")
+            .subscribe((res) => {
+                this.classData = res["data"];
+            });
     }
 
-
-    listGetData(){
+    listGetData() {
         this.SpinnerService.show();
-        this.apiService.getData('teacher/list?pageName=teacher').subscribe(res => {
-            this.listData = res['data'];
-            if (this.isDtInitialized) {
-                this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-                    dtInstance.destroy();
+        this.apiService.getData("teacher/list?pageName=teacher").subscribe(
+            (res) => {
+                this.listData = res["data"];
+                if (this.isDtInitialized) {
+                    this.dtElement.dtInstance.then(
+                        (dtInstance: DataTables.Api) => {
+                            dtInstance.destroy();
+                            this.dtTrigger.next();
+                        }
+                    );
+                } else {
+                    this.isDtInitialized = true;
                     this.dtTrigger.next();
-                });
-            } else {
-                this.isDtInitialized = true;
-                this.dtTrigger.next();
+                }
+                this.SpinnerService.hide();
+            },
+            (error) => {
+                if (error["error"]) {
+                    this.toastr.error(error.error["message"]);
+                    this.router.navigate(["/login"]);
+                }
             }
-            this.SpinnerService.hide();
-        },
-        error => {
-            if(error['error']){
-                this.toastr.error(error.error['message']);
-                this.router.navigate(['/login']);
-            }
-        });
+        );
     }
 
-
-    editData(id:any){
+    editData(id: any) {
         this.SpinnerService.show();
         this.editID = id;
-        this.apiService.getData('teacher/list/'+this.editID+'?pageName=teacher').subscribe(res => {
-            this.detailForm.controls['teacher_name'].setValue(res['data'].teacher_name);
-            this.detailForm.controls['education'].setValue(res['data'].education);
-            this.detailForm.controls['display'].setValue(res['data'].display);
-            this.SpinnerService.hide();
-        });    
+        this.checkedList = [];
+        this.apiService
+            .getData("teacher/list/" + this.editID + "?pageName=teacher")
+            .subscribe((res) => {
+                this.detailForm.controls["teacher_name"].setValue(
+                    res["data"].teacher_name
+                );
+                this.detailForm.controls["education"].setValue(
+                    res["data"].education
+                );
+                this.detailForm.controls["display"].setValue(
+                    res["data"].display
+                );
+                //this.detailForm.controls["class"].setValue(res["data"].class);
+                if (res["data"].class !== null) {
+                    this.checkedList = JSON.parse(res["data"].class);
+                }
+
+                this.SpinnerService.hide();
+            });
     }
-
-
-    saveDetail(){
+    onCheckboxChange(option, event) {
+        if (event.target.checked) {
+            this.checkedList.push(option.class_name);
+        } else {
+            for (var i = 0; i < this.classData.length; i++) {
+                if (this.checkedList[i] == option.class_name) {
+                    this.checkedList.splice(i, 1);
+                }
+            }
+        }
+        console.log(this.checkedList);
+    }
+    isSelected(topic) {
+        if (this.checkedList != null && this.checkedList.length > 0) {
+            return this.checkedList.indexOf(topic) >= 0;
+        }
+    }
+    saveDetail() {
         this.submitted = true;
         if (this.detailForm.invalid) {
             return;
         }
         this.SpinnerService.show();
-        if(this.formType == 'add'){
-            this.apiUrl = 'teacher/add';
-        }else{
-            this.detailForm.value['id'] = this.editID;
-            this.apiUrl = 'teacher/edit';
+        if (this.formType == "add") {
+            this.apiUrl = "teacher/add";
+        } else {
+            this.detailForm.value["id"] = this.editID;
+            this.apiUrl = "teacher/edit";
         }
-        if(this.formType == 'edit' && this.tempFileData == undefined){
-            this.detailForm.value.image = '';
-            this.tempFileData = '';
+        if (this.formType == "edit" && this.tempFileData == undefined) {
+            this.detailForm.value.image = "";
+            this.tempFileData = "";
         }
-        if(this.detailForm.value.display){
+        if (this.detailForm.value.display) {
             this.detailForm.value.display = 1;
-        }else{
+        } else {
             this.detailForm.value.display = 0;
         }
+
         const formData = new FormData();
-        formData.append('pageName', 'teacher');
-        formData.append('teacher_name', this.detailForm.value.teacher_name);
-        formData.append('education', this.detailForm.value.education);
-        formData.append('display', this.detailForm.value.display);
-        formData.append('teacher_image', this.tempFileData);
-        if(this.formType == 'edit'){
-            formData.append('id', this.editID);
+        formData.append("pageName", "teacher");
+        formData.append("teacher_name", this.detailForm.value.teacher_name);
+        formData.append("education", this.detailForm.value.education);
+        formData.append("display", this.detailForm.value.display);
+        formData.append("class", JSON.stringify(this.checkedList));
+        formData.append("teacher_image", this.tempFileData);
+        if (this.formType == "edit") {
+            formData.append("id", this.editID);
         }
-        this.apiService.saveData(this.apiUrl, formData).subscribe(res => {
+        this.apiService.saveData(this.apiUrl, formData).subscribe((res) => {
             this.SpinnerService.hide();
-            if(res['status']){
+            if (res["status"]) {
                 this.modalReference.close();
                 this.listGetData();
-                this.toastr.success(res['message']);
-            }else{
-                this.toastr.error(res['message']);
+                this.toastr.success(res["message"]);
+            } else {
+                this.toastr.error(res["message"]);
             }
-        });    
+        });
     }
-
 
     uploadFile(event) {
         if (event.target.files.length > 0) {
@@ -148,85 +196,85 @@ export class TeacherListComponent implements OnInit {
         }
     }
 
-
-    deleteData(id:any){
+    deleteData(id: any) {
         Swal.fire({
-            title: 'Are you sure?',
+            title: "Are you sure?",
             text: "You wan't to delete ?",
-            icon: 'warning',
+            icon: "warning",
             showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, keep it'
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, keep it",
         }).then((result) => {
             if (result.value) {
                 var obj = {
-                    "id" : id
-                }
-                this.apiService.saveData('teacher/delete?pageName=teacher', obj).subscribe(res => {
-                    this.listGetData();
-                    this.toastr.success(res['message']);
-                });    
+                    id: id,
+                };
+                this.apiService
+                    .saveData("teacher/delete?pageName=teacher", obj)
+                    .subscribe((res) => {
+                        this.listGetData();
+                        this.toastr.success(res["message"]);
+                    });
             } else if (result.dismiss === Swal.DismissReason.cancel) {
-
             }
-        })
-    }    
+        });
+    }
 
-
-    open(content:any, type:any, id:any) {
+    open(content: any, type: any, id: any) {
         this.submitted = false;
         this.detailForm.markAsPristine();
         this.detailForm.markAsUntouched();
         this.detailForm.updateValueAndValidity();
         this.detailForm.reset();
         this.detailForm.clearValidators();
-        Object.keys(this.detailForm.controls).forEach(key => {
-            this.detailForm.get(key).setErrors(null) ;
+        Object.keys(this.detailForm.controls).forEach((key) => {
+            this.detailForm.get(key).setErrors(null);
         });
-        
-        if(type == 'edit'){
+
+        if (type == "edit") {
             this.editData(id);
-            this.formType = 'edit';
+            this.formType = "edit";
             this.detailForm = this.formBuilder.group({
                 teacher_name: ["", Validators.required],
                 education: ["", Validators.required],
                 image: [""],
                 display: [""],
+                class: [""],
             });
-        }else{
-            this.formType = 'add';
+        } else {
+            this.formType = "add";
+            this.checkedList = [];
             this.detailForm = this.formBuilder.group({
                 teacher_name: ["", Validators.required],
                 education: ["", Validators.required],
                 image: ["", Validators.required],
                 display: [""],
+                class: [""],
             });
         }
 
         this.modalReference = this.modalService.open(content);
-        this.modalReference.result.then((result) => {
-            this.closeResult = `Closed with: ${result}`;
-        }, (reason) => {
-            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        });
+        this.modalReference.result.then(
+            (result) => {
+                this.closeResult = `Closed with: ${result}`;
+            },
+            (reason) => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            }
+        );
     }
-
 
     getDismissReason(reason: any): string {
         if (reason === ModalDismissReasons.ESC) {
-            return 'by pressing ESC';
+            return "by pressing ESC";
         } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-            return 'by clicking on a backdrop';
+            return "by clicking on a backdrop";
         } else {
-            return  `with: ${reason}`;
+            return `with: ${reason}`;
         }
     }
 
-
     get fval() {
-        return this.detailForm.controls; 
+        return this.detailForm.controls;
     }
-
-
 }
-

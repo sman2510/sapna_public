@@ -1,19 +1,33 @@
 <div [@routerTransition]>
     <app-page-header [heading]="'Teachers'"></app-page-header>
 
-    <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise">  
-        <p style="color: white">Please Wait... </p>  
-    </ngx-spinner> 
+    <ngx-spinner
+        bdColor="rgba(51, 51, 51, 0.8)"
+        size="default"
+        type="ball-spin-clockwise"
+    >
+        <p style="color: white;">Please Wait...</p>
+    </ngx-spinner>
 
     <div class="row">
         <div class="col col-xl-12 col-lg-12">
             <div class="card mb-3">
                 <div class="card-header">
                     <span>Teacher Details</span>
-                    <button class="btn btn-sm btn-primary pull-right" (click)="open(content,'add', '')">Add</button>
+                    <button
+                        class="btn btn-sm btn-primary pull-right"
+                        (click)="open(content, 'add', '')"
+                    >
+                        Add
+                    </button>
                 </div>
                 <div class="card-body table-responsive">
-                    <table class="table table-striped table-bordered table-sm row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+                    <table
+                        class="table table-striped table-bordered table-sm row-border hover"
+                        datatable
+                        [dtOptions]="dtOptions"
+                        [dtTrigger]="dtTrigger"
+                    >
                         <thead>
                             <tr>
                                 <th>S. No.</th>
@@ -25,17 +39,23 @@
                         </thead>
                         <tbody *ngIf="listData?.length != 0">
                             <tr *ngFor="let data of listData; index as i">
-                                <td>{{i+1}}</td>
-                                <td>{{data.teacher_name}}</td>
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ data.teacher_name }}</td>
                                 <td>
                                     <span *ngIf="data.display == '1'">Yes</span>
                                     <span *ngIf="data.display == '0'">No</span>
                                 </td>
-                                <td>{{data.education}}</td>
+                                <td>{{ data.education }}</td>
                                 <td class="text-center actionHeader">
-                                    <button (click)="open(content,'edit', data.id)" class="btn btn-sm btn-primary fa fa-pencil"></button>
+                                    <button
+                                        (click)="open(content, 'edit', data.id)"
+                                        class="btn btn-sm btn-primary fa fa-pencil"
+                                    ></button>
                                     &nbsp;
-                                    <button (click)="deleteData(data.id)" class="btn btn-sm btn-danger fa fa-trash"></button>
+                                    <button
+                                        (click)="deleteData(data.id)"
+                                        class="btn btn-sm btn-danger fa fa-trash"
+                                    ></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -57,52 +77,140 @@
                         <div class="col-lg-6 col-sm-6 col-xl-6 col-md-6">
                             <div class="form-group">
                                 <label>Teacher Name *</label>
-                                <input type="text" formControlName="teacher_name" class="form-control" [ngClass]="{ 'is-invalid': submitted && fval.teacher_name.errors }"/>
-                                <div *ngIf="submitted && fval.teacher_name.errors" class="invalid-feedback">
-                                    <div *ngIf="fval.teacher_name.errors.required">
+                                <input
+                                    type="text"
+                                    formControlName="teacher_name"
+                                    class="form-control"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                            submitted &&
+                                            fval.teacher_name.errors
+                                    }"
+                                />
+                                <div
+                                    *ngIf="
+                                        submitted && fval.teacher_name.errors
+                                    "
+                                    class="invalid-feedback"
+                                >
+                                    <div
+                                        *ngIf="
+                                            fval.teacher_name.errors.required
+                                        "
+                                    >
                                         Teacher Name is required
-                                    </div>                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 col-sm-6 col-xl-6 col-md-6">
                             <div class="form-group">
                                 <label>Education *</label>
-                                <input type="text" formControlName="education" class="form-control" [ngClass]="{ 'is-invalid': submitted && fval.education.errors }"/>
-                                <div *ngIf="submitted && fval.education.errors" class="invalid-feedback">
+                                <input
+                                    type="text"
+                                    formControlName="education"
+                                    class="form-control"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                            submitted && fval.education.errors
+                                    }"
+                                />
+                                <div
+                                    *ngIf="submitted && fval.education.errors"
+                                    class="invalid-feedback"
+                                >
                                     <div *ngIf="fval.education.errors.required">
                                         Education is required
-                                    </div>                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 col-sm-6 col-xl-6 col-md-6">
                             <div class="form-group">
                                 <label>Image *</label>
-                                <input type="file" formControlName="image" (change)="uploadFile($event)" class="form-control" accept="image/png, image/jpg, image/jpeg" [ngClass]="{ 'is-invalid': submitted && fval.image.errors }"/>
-                                <div *ngIf="submitted && fval.image.errors" class="invalid-feedback">
+                                <input
+                                    type="file"
+                                    formControlName="image"
+                                    (change)="uploadFile($event)"
+                                    class="form-control"
+                                    accept="image/png, image/jpg, image/jpeg"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                            submitted && fval.image.errors
+                                    }"
+                                />
+                                <div
+                                    *ngIf="submitted && fval.image.errors"
+                                    class="invalid-feedback"
+                                >
                                     <div *ngIf="fval.image.errors.required">
                                         Image is required
-                                    </div>                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
+                            <div class="form-group">
+                                <label>Class </label>
+                                <br />
+                                <a *ngFor="let data of classData">
+                                    <label for="{{ data.class_name }}">
+                                        <!-- These Checkboxes will not Check! (Visually) ... However the data does show up successfully in the JavaScript console.dir($.param( $scope.formData) ); -->
+                                        <input
+                                            type="checkbox"
+                                            formControlName="class"
+                                            value="{{ data.class_name }}"
+                                            (change)="
+                                                onCheckboxChange(data, $event)
+                                            "
+                                            [checked]="
+                                                isSelected(data.class_name)
+                                            "
+                                        />
+                                        {{ data.class_name }}
+                                    </label>
+                                    <br />
+                                </a>
+
+                                <div
+                                    *ngIf="submitted && fval.class.errors"
+                                    class="invalid-feedback"
+                                >
+                                    <div *ngIf="fval.class.errors.required">
+                                        Class is required
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 col-sm-6 col-xl-6 col-md-6">
                             <div class="form-group">
-                                <label>Display Name</label><br>
-                                <input type="checkbox" value="1" formControlName="display" />
+                                <label>Display Name</label><br />
+                                <input
+                                    type="checkbox"
+                                    value="1"
+                                    formControlName="display"
+                                />
                             </div>
-                        </div> 
+                        </div>
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-danger pull-right marLt_2Per" (click)="c('Close click')">Close</button>
-                        <button type="submit" class="btn btn-primary pull-right">Save</button>
+                        <button
+                            type="button"
+                            class="btn btn-danger pull-right marLt_2Per"
+                            (click)="c('Close click')"
+                        >
+                            Close
+                        </button>
+                        <button
+                            type="submit"
+                            class="btn btn-primary pull-right"
+                        >
+                            Save
+                        </button>
                     </div>
                 </div>
             </form>
         </div>
     </ng-template>
     <!-- Add/Edit Modal End -->
-
 </div>
-

@@ -46,10 +46,20 @@ export class AssessmentComponent implements OnInit {
         this.newDynamic = {
             id: "",
             question: "",
+            q_image: "",
+            question_image: "",
             a: "",
+            a_image: "",
+            a_option_image: "",
             b: "",
+            b_image: "",
+            b_option_image: "",
             c: "",
+            c_image: "",
+            c_option_image: "",
             d: "",
+            d_image: "",
+            d_option_image: "",
             ans: "",
             description: "",
         };
@@ -80,6 +90,86 @@ export class AssessmentComponent implements OnInit {
                     }
                 }
             );
+    }
+
+    uploadFile(event, id: any) {
+        console.log(this.dynamicArray[id]);
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            //this.tempFileData = file;
+            //this.detailForm.value.image = file;
+            let reader: FileReader = new FileReader();
+            reader.readAsDataURL(event.target.files[0]);
+            reader.onload = (e: Event) => {
+                // called once readAsDataURL is completed
+                this.dynamicArray[id].q_image = reader.result;
+            };
+        }
+        console.log(this.dynamicArray[id]);
+    }
+
+    uploadFileA(event, id: any) {
+        console.log(this.dynamicArray[id]);
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            //this.tempFileData = file;
+            //this.detailForm.value.image = file;
+            let reader: FileReader = new FileReader();
+            reader.readAsDataURL(event.target.files[0]);
+            reader.onload = (e: Event) => {
+                // called once readAsDataURL is completed
+                this.dynamicArray[id].a_image = reader.result;
+            };
+        }
+        console.log(this.dynamicArray[id]);
+    }
+
+    uploadFileB(event, id: any) {
+        console.log(this.dynamicArray[id]);
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            //this.tempFileData = file;
+            //this.detailForm.value.image = file;
+            let reader: FileReader = new FileReader();
+            reader.readAsDataURL(event.target.files[0]);
+            reader.onload = (e: Event) => {
+                // called once readAsDataURL is completed
+                this.dynamicArray[id].b_image = reader.result;
+            };
+        }
+        console.log(this.dynamicArray[id]);
+    }
+
+    uploadFileC(event, id: any) {
+        console.log(this.dynamicArray[id]);
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            //this.tempFileData = file;
+            //this.detailForm.value.image = file;
+            let reader: FileReader = new FileReader();
+            reader.readAsDataURL(event.target.files[0]);
+            reader.onload = (e: Event) => {
+                // called once readAsDataURL is completed
+                this.dynamicArray[id].c_image = reader.result;
+            };
+        }
+        console.log(this.dynamicArray[id]);
+    }
+
+    uploadFileD(event, id: any) {
+        console.log(this.dynamicArray[id]);
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            //this.tempFileData = file;
+            //this.detailForm.value.image = file;
+            let reader: FileReader = new FileReader();
+            reader.readAsDataURL(event.target.files[0]);
+            reader.onload = (e: Event) => {
+                // called once readAsDataURL is completed
+                this.dynamicArray[id].d_image = reader.result;
+            };
+        }
+        console.log(this.dynamicArray[id]);
     }
 
     saveDetail() {
@@ -151,10 +241,20 @@ export class AssessmentComponent implements OnInit {
         this.newDynamic = {
             id: "",
             question: "",
+            q_image: "",
+            question_image: "",
             a: "",
+            a_image: "",
+            a_option_image: "",
             b: "",
+            b_image: "",
+            b_option_image: "",
             c: "",
+            c_image: "",
+            c_option_image: "",
             d: "",
+            d_image: "",
+            d_option_image: "",
             ans: "",
             description: "",
         };

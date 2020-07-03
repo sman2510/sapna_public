@@ -62,33 +62,21 @@
                                         type="hidden"
                                         [(ngModel)]="dynamicArray[i].id"
                                     />
+                                    <input
+                                        type="hidden"
+                                        [(ngModel)]="dynamicArray[i].q_image"
+                                    />
                                 </div>
 
-                                <!-- <div class="form-group">
-                                    <label>Image *</label>
+                                <div class="form-group">
+                                    <label>Question Image</label>
                                     <input
                                         type="file"
-                                        [(ngModel)]="
-                                            dynamicArray[i].question_image
-                                        "
-                                        (change)="
-                                            uploadFile(
-                                                $event,
-                                                dynamicArray[i].id
-                                            )
-                                        "
+                                        (change)="uploadFile($event, i)"
                                         class="form-control"
                                         accept="image/png, image/jpg, image/jpeg"
                                     />
-                                    <div
-                                        *ngIf="submitted && fval.image.errors"
-                                        class="invalid-feedback"
-                                    >
-                                        <div *ngIf="fval.image.errors.required">
-                                            Image is required
-                                        </div>
-                                    </div>
-                                </div> -->
+                                </div>
                             </div>
 
                             <div class="col-lg-2 col-sm-2 col-xl-2 col-md-2">
@@ -115,11 +103,41 @@
                             </div>
                             <div class="col-lg-3 col-sm-3 col-xl-3 col-md-3">
                                 <div class="form-group">
+                                    <label>Option 1 Image</label>
+                                    <input
+                                        type="file"
+                                        (change)="uploadFileA($event, i)"
+                                        class="form-control"
+                                        accept="image/png, image/jpg, image/jpeg"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        [(ngModel)]="dynamicArray[i].a_image"
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-3 col-xl-3 col-md-3">
+                                <div class="form-group">
                                     <label>Option 2 *</label>
                                     <input
                                         type="text"
                                         [(ngModel)]="dynamicArray[i].b"
                                         class="form-control"
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-3 col-xl-3 col-md-3">
+                                <div class="form-group">
+                                    <label>Option 2 Image</label>
+                                    <input
+                                        type="file"
+                                        (change)="uploadFileB($event, i)"
+                                        class="form-control"
+                                        accept="image/png, image/jpg, image/jpeg"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        [(ngModel)]="dynamicArray[i].b_image"
                                     />
                                 </div>
                             </div>
@@ -135,11 +153,41 @@
                             </div>
                             <div class="col-lg-3 col-sm-3 col-xl-3 col-md-3">
                                 <div class="form-group">
+                                    <label>Option 3 Image</label>
+                                    <input
+                                        type="file"
+                                        (change)="uploadFileC($event, i)"
+                                        class="form-control"
+                                        accept="image/png, image/jpg, image/jpeg"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        [(ngModel)]="dynamicArray[i].c_image"
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-3 col-xl-3 col-md-3">
+                                <div class="form-group">
                                     <label>Option 4 *</label>
                                     <input
                                         type="text"
                                         [(ngModel)]="dynamicArray[i].d"
                                         class="form-control"
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-3 col-xl-3 col-md-3">
+                                <div class="form-group">
+                                    <label>Option 4 Image</label>
+                                    <input
+                                        type="file"
+                                        (change)="uploadFileD($event, i)"
+                                        class="form-control"
+                                        accept="image/png, image/jpg, image/jpeg"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        [(ngModel)]="dynamicArray[i].d_image"
                                     />
                                 </div>
                             </div>

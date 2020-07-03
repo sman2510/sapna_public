@@ -159,13 +159,11 @@
                                         <input
                                             type="checkbox"
                                             formControlName="class"
-                                            value="{{ data.class_name }}"
+                                            value="{{ data.id }}"
                                             (change)="
                                                 onCheckboxChange(data, $event)
                                             "
-                                            [checked]="
-                                                isSelected(data.class_name)
-                                            "
+                                            [checked]="isSelected(data.id)"
                                         />
                                         {{ data.class_name }}
                                     </label>

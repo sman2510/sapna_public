@@ -129,14 +129,21 @@ export class TeacherListComponent implements OnInit {
     }
     onCheckboxChange(option, event) {
         if (event.target.checked) {
-            this.checkedList.push(option.class_name);
+            this.checkedList.push(option.id);
         } else {
             for (var i = 0; i < this.classData.length; i++) {
-                if (this.checkedList[i] == option.class_name) {
+                if (this.checkedList[i] == option.id) {
                     this.checkedList.splice(i, 1);
                 }
             }
         }
+        this.checkedList = this.checkedList.filter(function (
+            elem,
+            index,
+            self
+        ) {
+            return index === self.indexOf(elem);
+        });
         console.log(this.checkedList);
     }
     isSelected(topic) {

@@ -118,9 +118,10 @@
                         <div class="col-lg-6 col-sm-6 col-xl-6 col-md-6">
                             <div class="form-group">
                                 <label>Type *</label>
-                                <select class="form-control" formControlName="type" class="form-control" [ngClass]="{ 'is-invalid': submitted && fval.type.errors }">
-                                    <option value="Institute">Institute</option>
-                                    <option value="Teacher">Teacher</option>
+                                <select class="form-control" formControlName="type" class="form-control" [ngClass]="{ 'is-invalid': submitted && fval.type.errors }">                                   
+                                    <option value="School_teacher">School Teacher</option>
+                                    <option value="Home_tutor">Home Tutor</option>
+                                    <option value="Other">Other</option>
                                 </select>
                                 <div *ngIf="submitted && fval.type.errors" class="invalid-feedback">
                                     <div *ngIf="fval.type.errors.required">

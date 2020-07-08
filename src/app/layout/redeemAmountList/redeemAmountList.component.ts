@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { ApiService } from "../service/api.service";
+import { ExportService } from "../service/export.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import { DataTableDirective } from 'angular-datatables';
 import Swal from 'sweetalert2';
@@ -32,17 +33,20 @@ export class RedeemAmountListComponent implements OnInit {
     closeResult : string;    
     detailForm : FormGroup;
     submitted = false;
-
+    public apiUrl : any;
+    public downloadData : Array<any> = [];
+    public downloadData1 : Array<any> = [];
+    
     constructor(
         private apiService: ApiService,
+        private exportService: ExportService,
         private modalService: NgbModal,
         public router: Router,
         private formBuilder: FormBuilder,
         private toastr: ToastrService,
         private SpinnerService: NgxSpinnerService
     ) { }
-
-
+    
     ngOnInit() {
         this.dtOptions = {
             pagingType: 'full_numbers',
@@ -61,6 +65,24 @@ export class RedeemAmountListComponent implements OnInit {
         this.SpinnerService.show();
         this.apiService.getData('student/redeem/pending/list?pageName=student').subscribe(res => {
             this.listData = res['data'];
+            var tempData = JSON.parse(JSON.stringify(res['data']));
+            tempData.forEach(element => {
+                delete element['created_at'];
+                delete element['updated_at'];
+                delete element['user'];
+                delete element['transaction_id'];
+                if(element['mode']=='paytm')
+                {
+                delete element['ifsc'];
+                delete element['account_no'];
+                delete element['holder_name'];
+                this.downloadData.push(element);}
+                else
+                {
+                delete element['paytm_mobile'];
+                this.downloadData1.push(element);
+                }
+            });
             if (this.isDtInitialized) {
                 this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
                     dtInstance.destroy();
@@ -78,6 +100,7 @@ export class RedeemAmountListComponent implements OnInit {
                 this.router.navigate(['/login']);
             }
         });
+        
     }
 
 
@@ -138,7 +161,16 @@ export class RedeemAmountListComponent implements OnInit {
     get fval() {
         return this.detailForm.controls; 
     }
-
+  getExcel(){
+        this.SpinnerService.show();
+        this.exportService.exportExcel(this.downloadData, 'Paytm');
+        this.SpinnerService.hide();
+    }
+    getExcel1(){
+        this.SpinnerService.show();
+        this.exportService.exportExcel(this.downloadData1, 'bank');
+        this.SpinnerService.hide();
+    }
 
 }
 

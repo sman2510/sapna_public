@@ -204,14 +204,7 @@ export class AssessmentComponent implements OnInit {
             } else if (d.ans == null || d.ans == "" || d.ans == undefined) {
                 this.toastr.error("Answer is required");
                 flag = true;
-            } else if (
-                d.description == null ||
-                d.description == "" ||
-                d.description == undefined
-            ) {
-                this.toastr.error("Description is required");
-                flag = true;
-            }
+            } 
             console.log(i, flag, d);
         });
         if (flag) {

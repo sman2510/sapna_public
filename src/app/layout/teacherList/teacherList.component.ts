@@ -62,7 +62,7 @@ export class TeacherListComponent implements OnInit {
             education: ["", Validators.required],
             image: ["", Validators.required],
             display: [""],
-            class: [""],
+            class_id: [""],
         });
         this.checkedList = [];
         this.listGetData();
@@ -120,8 +120,8 @@ export class TeacherListComponent implements OnInit {
                     res["data"].display
                 );
                 //this.detailForm.controls["class"].setValue(res["data"].class);
-                if (res["data"].class !== null) {
-                    this.checkedList = JSON.parse(res["data"].class);
+                if (res["data"].class_id !== null) {
+                    this.checkedList = JSON.parse(res["data"].class_id);
                 }
 
                 this.SpinnerService.hide();
@@ -178,7 +178,7 @@ export class TeacherListComponent implements OnInit {
         formData.append("teacher_name", this.detailForm.value.teacher_name);
         formData.append("education", this.detailForm.value.education);
         formData.append("display", this.detailForm.value.display);
-        formData.append("class", JSON.stringify(this.checkedList));
+        formData.append("class_id", JSON.stringify(this.checkedList));
         formData.append("teacher_image", this.tempFileData);
         if (this.formType == "edit") {
             formData.append("id", this.editID);
@@ -246,7 +246,7 @@ export class TeacherListComponent implements OnInit {
                 education: ["", Validators.required],
                 image: [""],
                 display: [""],
-                class: [""],
+                class_id: [""],
             });
         } else {
             this.formType = "add";
@@ -256,7 +256,7 @@ export class TeacherListComponent implements OnInit {
                 education: ["", Validators.required],
                 image: ["", Validators.required],
                 display: [""],
-                class: [""],
+                class_id: [""],
             });
         }
 

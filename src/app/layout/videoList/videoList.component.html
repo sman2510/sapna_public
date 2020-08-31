@@ -322,55 +322,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
-                            <div class="form-group">
-                                <label>Video Thumbnail *</label>
-                                <input
-                                    type="file"
-                                    formControlName="thumbnail"
-                                    (change)="uploadThumbnail($event)"
-                                    class="form-control"
-                                    accept="image/png, image/jpg, image/jpeg"
-                                    [ngClass]="{
-                                        'is-invalid':
-                                            submitted && fval.thumbnail.errors
-                                    }"
-                                />
-                                <div
-                                    *ngIf="submitted && fval.thumbnail.errors"
-                                    class="invalid-feedback"
-                                >
-                                    <div *ngIf="fval.thumbnail.errors.required">
-                                        Video Thumbnail is required
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
-                            <div class="form-group">
-                                <label>Video *</label>
-                                <input
-                                    type="file"
-                                    formControlName="video"
-                                    (change)="uploadVideo($event)"
-                                    class="form-control"
-                                    accept=".webm, .mkv, .avi, .mp4,"
-                                    [ngClass]="{
-                                        'is-invalid':
-                                            submitted && fval.video.errors
-                                    }"
-                                />
-                                <div
-                                    *ngIf="submitted && fval.video.errors"
-                                    class="invalid-feedback"
-                                >
-                                    <div *ngIf="fval.video.errors.required">
-                                        Video is required
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
+                            <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
                             <div class="form-group">
                                 <label>Video Description *</label>
                                 <textarea
@@ -401,31 +353,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
-                            <div class="form-group">
-                                <label>Document *</label>
-                                <input
-                                    type="file"
-                                    formControlName="document"
-                                    (change)="uploadDoc($event)"
-                                    class="form-control"
-                                    accept=".pdf"
-                                    [ngClass]="{
-                                        'is-invalid':
-                                            submitted && fval.document.errors
-                                    }"
-                                />
-                                <div
-                                    *ngIf="submitted && fval.document.errors"
-                                    class="invalid-feedback"
-                                >
-                                    <div *ngIf="fval.document.errors.required">
-                                        Document is required
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
+                               <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
                             <div class="form-group">
                                 <label>Document Description*</label>
                                 <textarea
@@ -456,6 +384,85 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
+                            <div class="form-group">
+                                <label>Video Thumbnail *</label>
+                                <input
+                                    type="file"
+                                    formControlName="thumbnail"
+                                    (change)="uploadThumbnail($event)"
+                                    class="form-control"
+                                    accept="image/png, image/jpg, image/jpeg"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                            submitted && fval.thumbnail.errors
+                                    }"
+                                />
+                                <div
+                                    *ngIf="submitted && fval.thumbnail.errors"
+                                    class="invalid-feedback"
+                                >
+
+                                    <div *ngIf="fval.thumbnail.errors.required">
+                                        Video Thumbnail is required
+                                    </div>
+                                </div>
+                                <input type="text" formControlName="thumbnaiPath"class="form-control" readonly="readonly" [ngClass]="{ 'is-invalid': submitted && fval.title.errors }" />
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
+                            <div class="form-group">
+                                <label>Video *</label>
+                                <input
+                                    type="file"
+                                    formControlName="video"
+                                    (change)="uploadVideo($event)"
+                                    class="form-control"
+                                    accept=".webm, .mkv, .avi, .mp4,"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                            submitted && fval.video.errors
+                                    }"
+                                />
+                                <div
+                                    *ngIf="submitted && fval.video.errors"
+                                    class="invalid-feedback"
+                                >
+                                    <div *ngIf="fval.video.errors.required">
+                                        Video is required
+                                    </div>
+                                    
+                                </div>
+                                <input type="text" formControlName="videoPath" class="form-control"   readonly="readonly" [ngClass]="{'is-invalid': submitted && fval.title.errors}" />   
+                            </div>
+                        </div>
+                    
+                        <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
+                            <div class="form-group">
+                                <label>Document *</label>
+                                <input
+                                    type="file"
+                                    formControlName="document"
+                                    (change)="uploadDoc($event)"
+                                    class="form-control"
+                                    accept=".pdf"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                            submitted && fval.document.errors
+                                    }"
+                                />
+                                <div
+                                    *ngIf="submitted && fval.document.errors"
+                                    class="invalid-feedback"
+                                >
+                                    <div *ngIf="fval.document.errors.required">
+                                        Document is required
+                                    </div>
+
+                                </div> <input type="text" formControlName="DocumentPath" class="form-control"  readonly="readonly"[ngClass]="{'is-invalid':submitted && fval.title.errors}"/>
+                            </div>
+                        </div>
+                 
                     </div>
                     <div class="form-group">
                         <button

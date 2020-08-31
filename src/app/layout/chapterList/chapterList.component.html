@@ -21,6 +21,7 @@
                                 <th>Subject</th>
                                 <th>Chapter Name</th>
                                 <th>Description</th>
+                                <th>Squence Number</th>
                                 <th class="text-center actionHeader">Action</th>
                             </tr>
                         </thead>
@@ -31,6 +32,7 @@
                                 <td>{{data.subject.subject_name}}</td>
                                 <td>{{data.chapter_name}}</td>
                                 <td>{{data.description}}</td>
+                                <td>{{data.sqno}}</td>
                                 <td class="text-center actionHeader">
                                     <button (click)="open(content,'edit', data.id)" class="btn btn-sm btn-primary fa fa-pencil"></button>
                                     &nbsp;

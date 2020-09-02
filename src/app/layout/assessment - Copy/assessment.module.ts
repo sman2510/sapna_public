@@ -11,11 +11,11 @@ import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
     imports: [
-        CommonModule, 
-        AssessmentRoutingModule, 
-        PageHeaderModule, 
-        NgbModule,
-        FormsModule,
+    	CommonModule, 
+    	AssessmentRoutingModule, 
+    	PageHeaderModule, 
+    	NgbModule,
+    	FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
         HttpClientJsonpModule,

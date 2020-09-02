@@ -53,6 +53,7 @@
                                 <th>Topic</th>
                                 <th>Video Title</th>
                                 <th>Video Type</th>
+                                <th>Sq.No.</th>
                                 <th>Video Description</th>
                                 <th>Document Description</th>
                                 <th class="text-center actionHeader">Action</th>
@@ -80,6 +81,7 @@
                                 <td>{{ data.topic.topic_name }}</td>
                                 <td>{{ data.title }}</td>
                                 <td>{{ data.type | titlecase }}</td>
+                                <td>{{ data.sqno }}</td>
                                 <td>{{ data.video_description }}</td>
                                 <td>{{ data.document_description }}</td>
                                 <td class="text-center actionHeader">
@@ -462,8 +464,31 @@
                                 </div> <input type="text" formControlName="DocumentPath" class="form-control"  readonly="readonly"[ngClass]="{'is-invalid':submitted && fval.title.errors}"/>
                             </div>
                         </div>
-                 
+                        
+                  <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
+                            <div class="form-group">
+                                <label>Video Title *</label>
+                                <input
+                                    type="text"
+                                    formControlName="title"
+                                    class="form-control"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                            submitted && fval.title.errors
+                                    }"
+                                />
+                                <div
+                                    *ngIf="submitted && fval.title.errors"
+                                    class="invalid-feedback"
+                                >
+                                    <div *ngIf="fval.title.errors.required">
+                                        Video Title is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <button
                             type="button"

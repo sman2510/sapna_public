@@ -180,47 +180,36 @@ export class AssessmentComponent implements OnInit {
         obj["questions"] = this.dynamicArray;
         // console.log(this.dynamicArray)
 
-       /* var flag = false;
+        var flag = false;
         this.dynamicArray.forEach(function (d, i) {
-            if ((
+            if (
                 d.question == null ||
                 d.question == "" ||
-                d.question == undefined)&&(
-                d.question_image == null ||
-                d.question_image == "" ||
-                d.question_image == undefined)
-
+                d.question == undefined
             ) {
                 this.toastr.error("Question is required");
                 flag = true;
-            } else if ((d.a == null || d.a == "" || d.a == undefined )&&( d.a_option_image == null || d.a_option_image == "" || d.a_option_image == undefined)) {
+            } else if (d.a == null || d.a == "" || d.a == undefined) {
                 this.toastr.error("Option A is required");
                 flag = true;
-            } else if ((d.b == null || d.b == "" || d.b == undefined )&&(d.b_option_image == null || d.b_option_image == "" || d.b_option_image == undefined)) {
+            } else if (d.b == null || d.b == "" || d.b == undefined) {
                 this.toastr.error("Option B is required");
                 flag = true;
-            } else if ((d.c == null || d.c == "" || d.c == undefined )&&(d.c_option_image == null || d.c_option_image == "" || d.c_option_image == undefined)) {
+            } else if (d.c == null || d.c == "" || d.c == undefined) {
                 this.toastr.error("Option C is required");
                 flag = true;
-            } else if ((d.d == null || d.d == "" || d.d == undefined )&&(d.d_option_image == null || d.d_option_image == "" || d.d_option_image == undefined)) {
+            } else if (d.d == null || d.d == "" || d.d == undefined) {
                 this.toastr.error("Option D is required");
                 flag = true;
             } else if (d.ans == null || d.ans == "" || d.ans == undefined) {
                 this.toastr.error("Answer is required");
                 flag = true;
-            } /*else if (
-                d.description == null ||
-                d.description == "" ||
-                d.description == undefined
-            ) {
-                this.toastr.error("Description is required");
-                flag = true;
-            }
+            } 
             console.log(i, flag, d);
         });
         if (flag) {
             return;
-        }*/
+        }
 
         this.SpinnerService.show();
         this.apiService

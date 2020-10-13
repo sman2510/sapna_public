@@ -45,11 +45,11 @@ export class VideoListComponent implements OnInit {
     public tempThumbnailData: any;
     public tempVideoData: any;
     public tempDocData: any;
+    public temphDocData: any;
     public progress: number = 0;
     closeResult: string;
     detailForm: FormGroup;
     submitted = false;
-
     constructor(
         private apiService: ApiService,
         private modalService: NgbModal,
@@ -58,7 +58,6 @@ export class VideoListComponent implements OnInit {
         private toastr: ToastrService,
         private SpinnerService: NgxSpinnerService
     ) {}
-
     ngOnInit() {
         sessionStorage.removeItem("videoId");
         this.dtOptions = {
@@ -75,13 +74,16 @@ export class VideoListComponent implements OnInit {
             topic_id: ["", Validators.required],
             title: ["", Validators.required],
             thumbnail: ["", Validators.required],
+            sqno: ["", Validators.required],
             video: ["", Validators.required],
             thumbnaiPath: [""],
             DocumentPath: [""],
+            hDocumentPath: [""],
             videoPath: [""],
             video_description: ["", Validators.required],
             document: [""],
-            document_description: ["", Validators.required],
+            hdocument: [""],
+            document_description: [""],
         });
         this.listGetData();
         this.getClassData();
@@ -199,6 +201,8 @@ export class VideoListComponent implements OnInit {
                 this.detailForm.controls["thumbnaiPath"].setValue(res["data"].thumbnail);
                 this.detailForm.controls["videoPath"].setValue(res["data"].video_url);
                 this.detailForm.controls["DocumentPath"].setValue(res["data"].document_url);
+                this.detailForm.controls["hDocumentPath"].setValue(res["data"].hdocument_url);
+                this.detailForm.controls["sqno"].setValue(res["data"].sqno);
                 this.detailForm.controls["video_description"].setValue(
                     res["data"].video_description
                 );
@@ -208,7 +212,6 @@ export class VideoListComponent implements OnInit {
                 this.SpinnerService.hide();
             });
     }
-
     saveDetail() {
         this.submitted = true;
         if (this.detailForm.invalid) {
@@ -233,9 +236,17 @@ export class VideoListComponent implements OnInit {
             this.detailForm.value.document = "";
             this.tempDocData = "";
         }
+         if (this.formType == "edit" && this.temphDocData == undefined) {
+            this.detailForm.value.hdocument = "";
+            this.temphDocData = "";
+        }
         if (this.tempDocData == undefined) {
             this.detailForm.value.document = "";
             this.tempDocData = "";
+        }
+        if (this.temphDocData == undefined) {
+            this.detailForm.value.document = "";
+            this.temphDocData = "";
         }
         const formData = new FormData();
         formData.append("pageName", "video");
@@ -248,6 +259,7 @@ export class VideoListComponent implements OnInit {
         formData.append("title", this.detailForm.value.title);
         formData.append("thumbnail", this.tempThumbnailData);
         formData.append("video", this.tempVideoData);
+        formData.append("sqno", this.tempVideoData);
         formData.append(
             "video_description",
             this.detailForm.value.video_description
@@ -256,6 +268,11 @@ export class VideoListComponent implements OnInit {
         formData.append(
             "document_description",
             this.detailForm.value.document_description
+        );
+        formData.append("hdocument", this.temphDocData);
+        formData.append(
+            "hdocument_description",
+            this.detailForm.value.hdocument_description
         );
         if (this.formType == "edit") {
             formData.append("id", this.editID);
@@ -306,6 +323,13 @@ export class VideoListComponent implements OnInit {
             this.tempDocData = file;
         }
     }
+    uploadhDoc(event) {
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            this.detailForm.value.hdocument = file;
+            this.temphDocData = file;
+        }
+    }
 
     deleteData(id: any, type: any) {
         Swal.fire({
@@ -327,7 +351,16 @@ export class VideoListComponent implements OnInit {
                             this.listGetData();
                             this.toastr.success(res["message"]);
                         });
-                } else if (type == "quiz") {
+                } 
+                else if (type == "notes") {
+                    this.apiService
+                        .saveData("video/notesdelete?pageName=video", obj)
+                        .subscribe((res) => {
+                            this.listGetData();
+                            this.toastr.success(res["message"]);
+                        });
+                } 
+                else if (type == "quiz") {
                     this.apiService
                         .saveData("quiz/delete?pageName=video", obj)
                         .subscribe((res) => {
@@ -339,7 +372,6 @@ export class VideoListComponent implements OnInit {
             }
         });
     }
-
     open(content: any, type: any, id: any) {
         this.submitted = false;
         this.detailForm.markAsPristine();
@@ -350,7 +382,6 @@ export class VideoListComponent implements OnInit {
         Object.keys(this.detailForm.controls).forEach((key) => {
             this.detailForm.get(key).setErrors(null);
         });
-
         if (type == "edit") {
             this.editData(id);
             this.formType = "edit";
@@ -366,10 +397,13 @@ export class VideoListComponent implements OnInit {
                 thumbnail: [""],
                 thumbnaiPath: [""],
                 DocumentPath: [""],
+                hDocumentPath: [""],
                 videoPath: [""],
                 video_description: ["", Validators.required],
                 document: [""],
-                document_description: ["", Validators.required],
+                document_description: [""],
+                hdocument: [""],
+                hdocument_description: [""],
             });
         } else {
             this.formType = "add";
@@ -386,9 +420,12 @@ export class VideoListComponent implements OnInit {
                 videoPath: [""],
                 thumbnaiPath: [""],
                 DocumentPath: [""],
+                hDocumentPath: [""],
                 video_description: ["", Validators.required],
                 document: [""],
-                document_description: ["", Validators.required],
+                document_description: [""],
+                hdocument: [""],
+                hdocument_description: [""]
             });
         }
 

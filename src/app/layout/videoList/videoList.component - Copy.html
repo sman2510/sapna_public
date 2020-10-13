@@ -94,11 +94,6 @@
                                         (click)="deleteData(data.id, 'video')"
                                         class="btn btn-sm btn-danger fa fa-trash"
                                     ></button>
-                                    &nbsp;
-                                    <button
-                                        (click)="deleteData(data.id, 'notes')"
-                                        class="btn btn-sm btn-danger fa fa-trash"
-                                    >Delete Notes</button>
                                 </td>
                                 <td class="text-center actionHeader">
                                     <button
@@ -488,34 +483,13 @@
                                     class="invalid-feedback"
                                 >
                                     <div *ngIf="fval.hdocument.errors.required">
-                                        Document is required
+                                        Docum4444ent is required
                                     </div>
 
                                 </div> <input type="text" formControlName="hDocumentPath" class="form-control"  readonly="readonly"[ngClass]="{'is-invalid':submitted && fval.title.errors}"/>
                             </div>
                         </div>
-                                    <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
-                            <div class="form-group">
-                                <label>Sequence number *</label>
-                                <input
-                                    type="number"
-                                    formControlName="sqno"
-                                    class="form-control"
-                                    [ngClass]="{
-                                        'is-invalid':
-                                            submitted && fval.sqno.errors
-                                    }"
-                                />
-                                <div
-                                    *ngIf="submitted && fval.sqno.errors"
-                                    class="invalid-feedback"
-                                >
-                                    <div *ngIf="fval.sqno.errors.required">
-                                        sequence number is required
-                                    </div>
-                                </div>
-                            </div>
-                        </div>  </div>
+                                     </div>
 
                     <div class="form-group">
                         <button

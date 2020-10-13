@@ -34,10 +34,11 @@ export class ChapterListComponent implements OnInit {
     public modalReference : any;
     public formType : string;
     public tempFileData : any;
+    public tempDocData: any;
+    public temphDocData: any;
     closeResult : string;    
     detailForm : FormGroup;
     submitted = false;
-
     constructor(
         private apiService: ApiService,
         private modalService: NgbModal,
@@ -46,8 +47,6 @@ export class ChapterListComponent implements OnInit {
         private toastr: ToastrService,
         private SpinnerService: NgxSpinnerService
     ) { }
-
-
     ngOnInit() {
         this.dtOptions = {
             pagingType: 'full_numbers',
@@ -60,19 +59,22 @@ export class ChapterListComponent implements OnInit {
             chapter_name: ["", Validators.required],
             thumbnail: ["", Validators.required],
             description: ["", Validators.required],
+            thumbnaiPath: [""],
+            DocumentPath: [""],
+            hDocumentPath: [""],
+            document: [""],
+            hdocument: [""],
+            document_description: [""],
+            sqno:[""],
         });
         this.listGetData();
         this.getClassData();
     }
-
-
     getClassData(){
         this.apiService.getData('class/list?pageName=chapter').subscribe(res => {
             this.classData = res['data'];
         });    
     }
-
-
     getSubjectData(event){
         var value;
         if(event && event.target && event.target.value){
@@ -85,8 +87,6 @@ export class ChapterListComponent implements OnInit {
             this.subjectData = res['data'].subject;
         });    
     }
-
-
     listGetData(){
         this.SpinnerService.show();
         this.apiService.getData('chapter/list?pageName=chapter').subscribe(res => {
@@ -109,8 +109,6 @@ export class ChapterListComponent implements OnInit {
             }
         });
     }
-
-
     editData(id:any){
         this.SpinnerService.show();
         this.editID = id;
@@ -120,11 +118,14 @@ export class ChapterListComponent implements OnInit {
             this.detailForm.controls['subject_id'].setValue(res['data'].subject.id);
             this.detailForm.controls['chapter_name'].setValue(res['data'].chapter_name);
             this.detailForm.controls['description'].setValue(res['data'].description);
+            this.detailForm.controls["thumbnaiPath"].setValue(res["data"].thumbnail);
+            this.detailForm.controls["DocumentPath"].setValue(res["data"].document_url);
+            this.detailForm.controls["hDocumentPath"].setValue(res["data"].hdocument_url);
+            this.detailForm.controls["sqno"].setValue(res["data"].sqno);
+            this.detailForm.controls["document_description"].setValue(res["data"].document_description);
             this.SpinnerService.hide();
         });    
     }
-
-
     saveDetail(){
         this.submitted = true;
         if (this.detailForm.invalid) {
@@ -141,6 +142,22 @@ export class ChapterListComponent implements OnInit {
             this.detailForm.value.image = '';
             this.tempFileData = '';
         }
+        if (this.formType == "edit" && this.tempDocData == undefined) {
+            this.detailForm.value.document = "";
+            this.tempDocData = "";
+        }
+        if (this.tempDocData == undefined) {
+            this.detailForm.value.document = "";
+            this.tempDocData = "";
+        }
+        if (this.formType == "edit" && this.temphDocData == undefined) {
+            this.detailForm.value.hdocument = "";
+            this.temphDocData = "";
+        }
+        if (this.temphDocData == undefined) {
+            this.detailForm.value.document = "";
+            this.temphDocData = "";
+        }
         const formData = new FormData();
         formData.append('pageName', 'chapter');
         formData.append('class_id', this.detailForm.value.class_id);
@@ -148,6 +165,12 @@ export class ChapterListComponent implements OnInit {
         formData.append('chapter_name', this.detailForm.value.chapter_name);
         formData.append('description', this.detailForm.value.description);
         formData.append('thumbnail', this.tempFileData);
+        formData.append("document", this.tempDocData);
+        formData.append("document_description",this.detailForm.value.document_description);
+        formData.append("hdocument", this.temphDocData);
+        formData.append('description', this.detailForm.value.description);
+        formData.append('sqno', this.detailForm.value.sqno);
+
         if(this.formType == 'edit'){
             formData.append('id', this.editID);
         }
@@ -171,7 +194,20 @@ export class ChapterListComponent implements OnInit {
             this.tempFileData = file;
         }
     }
-
+    uploadDoc(event) {
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            this.detailForm.value.document = file;
+            this.tempDocData = file;
+        }
+    }
+    uploadhDoc(event) {
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            this.detailForm.value.hdocument = file;
+            this.temphDocData = file;
+        }
+    }
 
     deleteData(id:any){
         Swal.fire({
@@ -207,7 +243,6 @@ export class ChapterListComponent implements OnInit {
         Object.keys(this.detailForm.controls).forEach(key => {
             this.detailForm.get(key).setErrors(null) ;
         });
-        
         if(type == 'edit'){
             this.editData(id);
             this.formType = 'edit';
@@ -216,7 +251,14 @@ export class ChapterListComponent implements OnInit {
                 subject_id: ["", Validators.required],
                 chapter_name: ["", Validators.required],
                 thumbnail: [""],
-                description: ["", Validators.required],
+                description: [""],
+                thumbnaiPath: [""],
+                DocumentPath: [""],
+                hDocumentPath: [""],
+                document: [""],
+                hdocument: [""],
+                document_description: [""],
+                sqno:[""]
             });
         }else{
             this.formType = 'add';
@@ -226,9 +268,15 @@ export class ChapterListComponent implements OnInit {
                 chapter_name: ["", Validators.required],
                 thumbnail: ["", Validators.required],
                 description: ["", Validators.required],
+                thumbnaiPath: [""],
+                DocumentPath: [""],
+                hDocumentPath: [""],
+                document: [""],
+                hdocument: [""],
+                document_description: [""],
+                sqno:[""]
             });
         }
-
         this.modalReference = this.modalService.open(content);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;

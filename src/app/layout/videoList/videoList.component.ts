@@ -371,6 +371,8 @@ export class VideoListComponent implements OnInit {
             } else if (result.dismiss === Swal.DismissReason.cancel) {
             }
         });
+
+        
     }
     open(content: any, type: any, id: any) {
         this.submitted = false;

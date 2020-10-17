@@ -146,13 +146,14 @@ export class ChapterListComponent implements OnInit {
             this.detailForm.value.document = "";
             this.tempDocData = "";
         }
-        if (this.tempDocData == undefined) {
-            this.detailForm.value.document = "";
-            this.tempDocData = "";
-        }
+       
         if (this.formType == "edit" && this.temphDocData == undefined) {
             this.detailForm.value.hdocument = "";
             this.temphDocData = "";
+        }
+        if (this.tempDocData == undefined) {
+            this.detailForm.value.document = "";
+            this.tempDocData = "";
         }
         if (this.temphDocData == undefined) {
             this.detailForm.value.document = "";
@@ -194,6 +195,7 @@ export class ChapterListComponent implements OnInit {
             this.tempFileData = file;
         }
     }
+    
     uploadDoc(event) {
         if (event.target.files.length > 0) {
             const file = event.target.files[0];
@@ -209,7 +211,7 @@ export class ChapterListComponent implements OnInit {
         }
     }
 
-    deleteData(id:any){
+    deleteData(id:any, type: any){
         Swal.fire({
             title: 'Are you sure?',
             text: "You wan't to delete ?",
@@ -221,16 +223,30 @@ export class ChapterListComponent implements OnInit {
             if (result.value) {
                 var obj = {
                     "id" : id
-                }
-                this.apiService.saveData('chapter/delete?pageName=chapter', obj).subscribe(res => {
-                    this.listGetData();
-                    this.toastr.success(res['message']);
-                });    
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                };
+               
+ if (type == "chapter") {
+                    this.apiService
+                        .saveData("chapter/delete?pageName=chapter", obj)
+                        .subscribe((res) => {
+                            this.listGetData();
+                            this.toastr.success(res["message"]);
+                        });
+                } 
+                else if (type == "notes") {
+                    this.apiService
+                        .saveData("chapter/notesdelete?pageName=chapter", obj)
+                        .subscribe((res) => {
+                            this.listGetData();
+                            this.toastr.success(res["message"]);
+                        });
+                } 
+            }else if (result.dismiss === Swal.DismissReason.cancel) {
 
             }
-        })
-    }    
+        });
+    }
+
 
 
     open(content:any, type:any, id:any) {

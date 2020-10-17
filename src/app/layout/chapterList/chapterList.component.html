@@ -36,7 +36,8 @@
                                 <td class="text-center actionHeader">
                                     <button (click)="open(content,'edit', data.id)" class="btn btn-sm btn-primary fa fa-pencil"></button>
                                     &nbsp;
-                                    <button (click)="deleteData(data.id)" class="btn btn-sm btn-danger fa fa-trash"></button>
+                                    <button (click)="deleteData(data.id,'chapter')" class="btn btn-sm btn-danger fa fa-trash"></button>
+                                    <button (click)="deleteData(data.id,'notes')" class="btn btn-sm btn-danger fa fa-trash">Delete Notes</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -140,7 +141,7 @@
                         <div class="col-lg-6 col-sm-6 col-xl-6 col-md-6">
                             <div class="form-group">
                                 <label>English Document </label>
-                                <input type="file" formControlName="document" (change)="uploadDoc($event)" class="form-control"          accept=".pdf" [ngClass]="{'is-invalid': submitted && fval.document.errors }"/>
+                                <input type="file" value=""  formControlName="document" (change)="uploadDoc($event)" class="form-control"          accept=".pdf" [ngClass]="{'is-invalid': submitted && fval.document.errors }"/>
                                 <div *ngIf="submitted && fval.document.errors" class="invalid-feedback">
                                     <div *ngIf="fval.document.errors.required">
                                         Document is required
@@ -152,7 +153,7 @@
                         <div class="col-lg-6 col-sm-6 col-xl-6 col-md-6">
                             <div class="form-group">
                                 <label>Hindi Document</label>
-                                <input type="file" formControlName="hdocument"  (change)="uploadhDoc($event)" class="form-control" accept=".pdf" [ngClass]="{'is-invalid': submitted && fval.hdocument.errors}"/>
+                                <input type="file" value="" formControlName="hdocument"  (change)="uploadhDoc($event)" class="form-control" accept=".pdf" [ngClass]="{'is-invalid': submitted && fval.hdocument.errors}"/>
                                 <div *ngIf="submitted && fval.hdocument.errors" class="invalid-feedback">
                                     <div *ngIf="fval.hdocument.errors.required">
                                         Document is required

@@ -20,6 +20,7 @@ const routes: Routes = [
             { path: 'chapterList', loadChildren: () => import('./chapterList/chapterList.module').then(m => m.ChapterListModule) },
             { path: 'topicList', loadChildren: () => import('./topicList/topicList.module').then(m => m.TopicListModule) },
             { path: 'videoList', loadChildren: () => import('./videoList/videoList.module').then(m => m.VideoListModule) },
+            { path: 'liveClass', loadChildren: () => import('./liveClass/liveClass.module').then(m => m.LiveClassModule) },
             { path: 'assessment', loadChildren: () => import('./assessment/assessment.module').then(m => m.AssessmentModule) },
             { path: 'assessmentView', loadChildren: () => import('./assessmentView/assessmentView.module').then(m => m.AssessmentViewModule) },            
             { path: 'aboutus', loadChildren: () => import('./aboutus/aboutus.module').then(m => m.AboutusModule) },

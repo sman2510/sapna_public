@@ -31,8 +31,8 @@ export class LoginComponent implements OnInit {
         sessionStorage.removeItem('role');
         sessionStorage.removeItem('name');
         // this.baseUrl = 'http://ec2-13-232-236-23.ap-south-1.compute.amazonaws.com/api/';
-        this.baseUrl = 'http://api.mrbhartiya.com/api/';
-        // this.baseUrl = 'http://hallmarktourism.com/api/public/api/';
+        //this.baseUrl = 'http://api.mrbhartiya.com/api/';
+         this.baseUrl = 'http://bulkagro.test/api/';
         sessionStorage.setItem('baseUrl', this.baseUrl);
     }
 

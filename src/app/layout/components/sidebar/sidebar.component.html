@@ -38,6 +38,10 @@
             <i class="fa fa-fw fa-video-camera"></i>&nbsp;
             <span>Video</span>
         </a>
+        <a *ngIf="displayAdmin" [routerLink]="['/liveClass']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-video-camera"></i>&nbsp;
+            <span>Live Class</span>
+        </a>
         <a *ngIf="displaySuperAdmin" [routerLink]="['/aboutus']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-address-card"></i>&nbsp;
             <span>Comapny Information</span>

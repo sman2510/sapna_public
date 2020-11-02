@@ -31,6 +31,7 @@ export class NotificationListComponent implements OnInit {
     public editID : any;
     public modalReference : any;
     public formType : string;
+    public tempFileData: any;
     closeResult : string;    
     detailForm : FormGroup;
     submitted = false;
@@ -54,6 +55,7 @@ export class NotificationListComponent implements OnInit {
             title: ["", Validators.required],
             date: ["", Validators.required],
             description: ["", Validators.required],
+            image: ["", Validators.required],
         });
         this.listGetData();
     }
@@ -106,8 +108,21 @@ export class NotificationListComponent implements OnInit {
             this.detailForm.value['id'] = this.editID;
             this.apiUrl = 'notification/edit';
         }
+        if (this.formType == "edit" && this.tempFileData == undefined) {
+            this.detailForm.value.image = "";
+            this.tempFileData = "";
+        }
+        const formData = new FormData();
+        formData.append("pageName", "notification");
+        formData.append("title", this.detailForm.value.title);
+        formData.append("description", this.detailForm.value.description);
+        formData.append("date", this.detailForm.value.date);
+        formData.append("image", this.tempFileData);
+        if (this.formType == "edit") {
+            formData.append("id", this.editID);
+        }
         this.detailForm.value['pageName'] = 'notification';
-        this.apiService.saveData(this.apiUrl, this.detailForm.value).subscribe(res => {
+        this.apiService.saveData(this.apiUrl, formData).subscribe(res => {
             if(res['status']){
                 this.modalReference.close();
                 this.listGetData();
@@ -185,5 +200,11 @@ export class NotificationListComponent implements OnInit {
         return this.detailForm.controls; 
     }
 
-
+    uploadFile(event) {
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            this.tempFileData = file;
+            this.detailForm.value.image = file;
+        }
+    }
 }

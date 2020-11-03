@@ -47,6 +47,29 @@ export class ChapterListComponent implements OnInit {
         private toastr: ToastrService,
         private SpinnerService: NgxSpinnerService
     ) { }
+    uploadFile(event) {
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            this.detailForm.value.thumbnail = file;
+            this.tempFileData = file;
+        }
+    }
+    
+    uploadDoc(event) {
+        if (event.target.files.length > 0) {
+            const file1 = event.target.files[0];
+            this.detailForm.value.document = file1;
+            /*this.tempDocData = file;*/
+        }
+    }
+    uploadhDoc(event) {
+        if (event.target.files.length > 0) {
+            const file2 = event.target.files[0];
+            this.detailForm.value.hdocument = file2;
+            /*this.temphDocData = file*/;
+        }
+    }
+
     ngOnInit() {
         this.dtOptions = {
             pagingType: 'full_numbers',
@@ -142,23 +165,7 @@ export class ChapterListComponent implements OnInit {
             this.detailForm.value.image = '';
             this.tempFileData = '';
         }
-        if (this.formType == "edit" && this.tempDocData == undefined) {
-            this.detailForm.value.document = "";
-            this.tempDocData = "";
-        }
-       
-        if (this.formType == "edit" && this.temphDocData == undefined) {
-            this.detailForm.value.hdocument = "";
-            this.temphDocData = "";
-        }
-        if (this.tempDocData == undefined) {
-            this.detailForm.value.document = "";
-            this.tempDocData = "";
-        }
-        if (this.temphDocData == undefined) {
-            this.detailForm.value.document = "";
-            this.temphDocData = "";
-        }
+        
         const formData = new FormData();
         formData.append('pageName', 'chapter');
         formData.append('class_id', this.detailForm.value.class_id);
@@ -166,9 +173,9 @@ export class ChapterListComponent implements OnInit {
         formData.append('chapter_name', this.detailForm.value.chapter_name);
         formData.append('description', this.detailForm.value.description);
         formData.append('thumbnail', this.tempFileData);
-        formData.append("document", this.tempDocData);
+        formData.append("document",  this.detailForm.value.document);
         formData.append("document_description",this.detailForm.value.document_description);
-        formData.append("hdocument", this.temphDocData);
+        formData.append("hdocument",  this.detailForm.value.hdocument);
         formData.append('description', this.detailForm.value.description);
         formData.append('sqno', this.detailForm.value.sqno);
 
@@ -185,32 +192,11 @@ export class ChapterListComponent implements OnInit {
                 this.toastr.error(res['message']);
             }
         });    
+        
     }
 
 
-    uploadFile(event) {
-        if (event.target.files.length > 0) {
-            const file = event.target.files[0];
-            this.detailForm.value.thumbnail = file;
-            this.tempFileData = file;
-        }
-    }
     
-    uploadDoc(event) {
-        if (event.target.files.length > 0) {
-            const file = event.target.files[0];
-            this.detailForm.value.document = file;
-            this.tempDocData = file;
-        }
-    }
-    uploadhDoc(event) {
-        if (event.target.files.length > 0) {
-            const file = event.target.files[0];
-            this.detailForm.value.hdocument = file;
-            this.temphDocData = file;
-        }
-    }
-
     deleteData(id:any, type: any){
         Swal.fire({
             title: 'Are you sure?',

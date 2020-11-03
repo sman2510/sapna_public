@@ -259,7 +259,7 @@ export class VideoListComponent implements OnInit {
         formData.append("title", this.detailForm.value.title);
         formData.append("thumbnail", this.tempThumbnailData);
         formData.append("video", this.tempVideoData);
-        formData.append("sqno", this.tempVideoData);
+        formData.append("sqno", this.detailForm.value.sqno);
         formData.append(
             "video_description",
             this.detailForm.value.video_description
@@ -395,6 +395,7 @@ export class VideoListComponent implements OnInit {
                 type: ["", Validators.required],
                 topic_id: ["", Validators.required],
                 title: ["", Validators.required],
+                sqno: ["", Validators.required],
                 video: [""],
                 thumbnail: [""],
                 thumbnaiPath: [""],
@@ -417,6 +418,7 @@ export class VideoListComponent implements OnInit {
                 type: ["", Validators.required],
                 topic_id: ["", Validators.required],
                 title: ["", Validators.required],
+                sqno: ["", Validators.required],
                 video: ["", Validators.required],
                 thumbnail: ["", Validators.required],
                 videoPath: [""],

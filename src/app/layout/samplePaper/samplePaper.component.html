@@ -1,0 +1,191 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'SamplePaper'"></app-page-header>
+
+    <ngx-spinner
+        bdColor="rgba(51, 51, 51, 0.8)"
+        size="default"
+        type="ball-spin-clockwise"
+    >
+        <!-- <p style="color: white">Please Wait... {{progress}} </p> -->
+        <span style="color: white;">Please Wait... </span>
+        <span *ngIf="progress" style="color: white;">{{ progress }} % </span>
+    </ngx-spinner>
+
+    
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <span>Sample Paper Details</span>
+                    <button
+                        class="btn btn-sm btn-primary pull-right"
+                        (click)="open(content, 'add', '')"
+                    >
+                        Add
+                    </button>
+                </div>
+                <div class="card-body table-responsive">
+                    <table
+                        class="table table-striped table-bordered table-sm row-border hover"
+                        datatable
+                        [dtOptions]="dtOptions"
+                        [dtTrigger]="dtTrigger"
+                    >
+                        <thead>
+                            <tr>
+                                <th>S. No.</th>
+                                <th>Exam </th>
+                                <th>Paper Title</th>
+                               <th>Description</th>                                
+                                <th class="text-center actionHeader">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="listData?.length != 0">
+                            <tr *ngFor="let data of listData; index as i">
+                                <td>{{ i + 1 }}</td>
+                                <td>
+                                    {{
+                                        data.topic.chapter.subject.classes
+                                            .exam_name
+                                    }}
+                                </td>
+                              
+                                 <td>{{ data.title }}</td>
+                                 <td>{{ data.description }}</td>
+                                 <td class="text-center actionHeader">
+                                    <button
+                                        (click)="open(content, 'edit', data.id)"
+                                        class="btn btn-sm btn-primary fa fa-pencil"
+                                    ></button>
+                                 
+                                    &nbsp;
+                                    <button
+                                        (click)="deleteData(data.id, 'notes')"
+                                        class="btn btn-sm btn-danger fa fa-trash"
+                                    >Delete Notes</button>
+                                </td>
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal Start -->
+    <ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title"> Detail</h4>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="detailForm" (ngSubmit)="saveDetail()">
+                <div class="formbox">
+                    <div class="row">
+                        <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
+                            <div class="form-group">
+                                <label>Exam *</label>
+                                <select
+                                    class="form-control"
+                                    formControlName="exam_id"
+                                    (change)="getSubjectData($event)"
+                                    class="form-control"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                            submitted && fval.exam_id.errors
+                                    }"
+                                >
+                                    <option
+                                        *ngFor="let data of classData"
+                                        value="{{ data.id }}"
+                                        >{{ data.exam_name }}</option
+                                    >
+                                </select>
+                                <div
+                                    *ngIf="submitted && fval.exam_id.errors"
+                                    class="invalid-feedback"
+                                >
+                                    <div *ngIf="fval.exam_id.errors.required">
+                                        Exam is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
+                            <div class="form-group">
+                                <label> Description *</label>
+                                <textarea
+                                    type="text"
+                                    formControlName="video_description"
+                                    class="form-control"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                            submitted &&
+                                            fval.video_description.errors
+                                    }"
+                                ></textarea>
+                                <div
+                                    *ngIf="
+                                        submitted &&
+                                        fval.video_description.errors
+                                    "
+                                    class="invalid-feedback"
+                                >
+                                    <div
+                                        *ngIf="
+                                            fval.video_description.errors
+                                                .required
+                                        "
+                                    >
+                                        Video Description is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                    
+                        <div class="col-lg-4 col-sm-4 col-xl-4 col-md-4">
+                            <div class="form-group">
+                                <label>Document *</label>
+                                <input
+                                    type="file"
+                                    formControlName="document"
+                                    (change)="uploadDoc($event)"
+                                    class="form-control"
+                                    accept=".pdf"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                            submitted && fval.document.errors
+                                    }"
+                                />
+                                <div
+                                    *ngIf="submitted && fval.document.errors"
+                                    class="invalid-feedback"
+                                >
+                                    <div *ngIf="fval.document.errors.required">
+                                        Document is required
+                                    </div>
+
+                                </div> <input type="text" formControlName="DocumentPath" class="form-control"  readonly="readonly"[ngClass]="{'is-invalid':submitted && fval.title.errors}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button
+                            type="button"
+                            class="btn btn-danger pull-right marLt_2Per"
+                            (click)="c('Close click')"
+                        >
+                            Close
+                        </button>
+                        <button
+                            type="submit"
+                            class="btn btn-primary pull-right"
+                        >
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+    <!-- Add/Edit Modal End -->
+</div>

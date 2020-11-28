@@ -69,16 +69,13 @@ export class SamplePaperComponent implements OnInit {
         this.listGetData();
         this.getExamData();
     }
-
     getExamData() {
         this.apiService
             .getData("exam/list?pageName=samplePaper")
             .subscribe((res) => {
                 this.examData = res["data"];
             });
-    }
-
-   
+    }  
 
     listGetData() {
         this.SpinnerService.show();

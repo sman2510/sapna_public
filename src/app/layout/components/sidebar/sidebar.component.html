@@ -38,6 +38,10 @@
             <i class="fa fa-fw fa-video-camera"></i>&nbsp;
             <span>Video</span>
         </a>
+         <a *ngIf="displaySuperAdmin" [routerLink]="['/samplePaper']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-file-text"></i>&nbsp;
+            <span>Sample Paper</span>
+        </a>
         <a *ngIf="displaySuperAdmin" [routerLink]="['/aboutus']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-address-card"></i>&nbsp;
             <span>Comapny Information</span>
@@ -66,10 +70,7 @@
             <i class="fa fa-fw fa-file-text"></i>&nbsp;
             <span>Order List</span>
         </a>
-        <a *ngIf="displaySuperAdmin" [routerLink]="['/samplePaper']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-file-text"></i>&nbsp;
-            <span>Sample Paper</span>
-        </a>
+       
 
         
 

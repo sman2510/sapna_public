@@ -30,8 +30,8 @@ const routes: Routes = [
             { path: 'changePassword', loadChildren: () => import('./changePassword/changePassword.module').then(m => m.ChangePasswordModule) },
             { path: 'adminList', loadChildren: () => import('./adminList/adminList.module').then(m => m.AdminListModule) },
             { path: 'setting', loadChildren: () => import('./setting/setting.module').then(m => m.SettingModule) },
-
             { path: 'vendorDashboard', loadChildren: () => import('./vendorDashboard/vendorDashboard.module').then(m => m.VendorDashboardModule) },
+            { path: 'samplePaper', loadChildren: () => import('./samplePaper/samplePaper.module').then(m => m.SamplePaperModule) },
             
         ]
     }
